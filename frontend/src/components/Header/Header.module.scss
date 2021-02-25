@@ -1,0 +1,24 @@
+.header {
+    // position: fixed;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+    width: 100%;
+    background: white;
+    div {
+        margin: 1em 2em;
+    }
+}
+
+.menu {
+    display: flex;
+    flex-direction: row;
+    div {
+        margin: 0em 1em;
+        :hover {
+            cursor: pointer;
+            color: rgb(234, 104, 81);
+        }
+    }
+}
