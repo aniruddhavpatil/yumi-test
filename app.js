@@ -1,5 +1,6 @@
 const express = require('express');
 const mysql = require('mysql')
+const cors = require('cors');
 const connection = require('./db');
 const knex = require('./knex');
 const handleErrors = require('./middleware/handleErrors');
@@ -9,7 +10,7 @@ const app = express();
 const port = 3000;
 const { promisify } = require('util');
 
-
+app.use(cors());
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
