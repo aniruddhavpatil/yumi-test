@@ -49,57 +49,6 @@ const Page = () => {
     });
   };
 
-  const fetchData = async () => {
-    setState({
-      ...state,
-      orderView: 'loading',
-    });
-    const data = await getOrders(state.userId);
-    setState({
-      ...state,
-      pageView: 'loaded',
-      orderView: 'upcoming',
-      orders: {
-        ...state.orders,
-        upcoming: data.orders,
-      },
-    });
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, [state.userId, state.direction, state.page, state.per]);
-
-  const createRequest = (params) => {
-    let request = `${process.env.REACT_APP_API_URL}/api` + '/v1' + '/orders';
-
-    if (params) {
-      request += '?';
-      params.forEach(
-        (param, i) => {
-          if (param.value) {
-            if (i > 0) request += '&';
-            request += `${param.field}=${param.value.toString()}`;
-          }
-        },
-      );
-    }
-
-    const requestOptions = {
-      method: 'GET',
-      redirect: 'follow',
-    };
-    return [request, requestOptions];
-  };
-
-  const makeRequest = (request, requestOptions) => {
-    const result = fetch(request, requestOptions)
-      .then((response) => response.json())
-      .then((result) => result)
-      .catch((error) => console.log('error', error));
-    return result;
-  };
-
   const getParams = (userId) => ([
     {
       field: 'user_id',
@@ -123,12 +72,63 @@ const Page = () => {
     },
   ]);
 
+  const makeRequest = (request, requestOptions) => {
+    const result = fetch(request, requestOptions)
+      .then((response) => response.json())
+      .then((ans) => ans)
+      .catch((error) => (error));
+    return result;
+  };
+
+  const createRequest = (params) => {
+    let request = `${process.env.REACT_APP_API_URL}/api/v1/orders`;
+
+    if (params) {
+      request += '?';
+      params.forEach(
+        (param, i) => {
+          if (param.value) {
+            if (i > 0) request += '&';
+            request += `${param.field}=${param.value.toString()}`;
+          }
+        },
+      );
+    }
+
+    const requestOptions = {
+      method: 'GET',
+      redirect: 'follow',
+    };
+    return [request, requestOptions];
+  };
+
   const getOrders = (userId) => {
     const params = getParams(userId);
     const [request, requestOptions] = createRequest(params);
     const result = makeRequest(request, requestOptions);
     return result;
   };
+
+  const fetchData = async () => {
+    setState({
+      ...state,
+      orderView: 'loading',
+    });
+    const data = await getOrders(state.userId);
+    setState({
+      ...state,
+      pageView: 'loaded',
+      orderView: 'upcoming',
+      orders: {
+        ...state.orders,
+        upcoming: data.orders,
+      },
+    });
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [state.userId, state.direction, state.page, state.per]);
 
   const checkPage = () => {
     if (
@@ -183,22 +183,22 @@ const Page = () => {
     <div className={styles.page}>
       <h2 className={styles.title}>All Deliveries</h2>
       <div>
-        <button className={styles.button} onClick={() => showUser(1)}>
+        <button type="button" className={styles.button} onClick={() => showUser(1)}>
           User 1
         </button>
-        <button className={styles.button} onClick={() => showUser(2)}>
+        <button type="button" className={styles.button} onClick={() => showUser(2)}>
           User 2
         </button>
-        <button className={styles.button} onClick={() => sortAsc()}>
+        <button type="button" className={styles.button} onClick={() => sortAsc()}>
           Date Ascending
         </button>
-        <button className={styles.button} onClick={() => sortDesc()}>
+        <button type="button" className={styles.button} onClick={() => sortDesc()}>
           Date Descending
         </button>
-        <button className={styles.button} onClick={() => setPagination(2)}>
+        <button type="button" className={styles.button} onClick={() => setPagination(2)}>
           Pagination = 2
         </button>
-        <button className={styles.button} onClick={() => setPagination(4)}>
+        <button type="button" className={styles.button} onClick={() => setPagination(4)}>
           Pagination = 4
         </button>
       </div>
@@ -211,10 +211,10 @@ const Page = () => {
         </span>
       </div>
       <Orders {...state} />
-      <button onClick={() => prevPage()}>
+      <button type="button" onClick={() => prevPage()}>
         Previous Page
       </button>
-      <button onClick={() => nextPage()}>
+      <button type="button" onClick={() => nextPage()}>
         Next Page
       </button>
     </div>

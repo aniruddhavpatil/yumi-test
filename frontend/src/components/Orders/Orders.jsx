@@ -6,21 +6,14 @@ import PastOrders from '../PastOrders';
 import LoadingOrders from '../LoadingOrders';
 
 const Orders = (props) => {
-  const OrderView = (props) => {
-    if (props.orderView === 'upcoming') {
-      return <UpcomingOrders {...props} />;
-    }
-    if (props.orderView === 'past') {
-      return <PastOrders {...props} />;
-    }
-    return <LoadingOrders {...props} />;
-  };
-  return (
-    <div className={styles.orders}>
-      <OrderView {...props} />
-    </div>
-
-  );
+  const { orderView } = props;
+  if (orderView === 'upcoming') {
+    return <UpcomingOrders className={styles.orders} {...props} />;
+  }
+  if (orderView === 'past') {
+    return <PastOrders className={styles.orders} {...props} />;
+  }
+  return <LoadingOrders className={styles.orders} {...props} />;
 };
 
 export default Orders;

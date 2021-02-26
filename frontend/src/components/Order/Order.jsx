@@ -4,8 +4,8 @@ import moment from 'moment';
 import styles from './Order.module.scss';
 import Meal from '../Meal';
 
-const Order = (props) => {
-  const meals = props.meals.map((meal) => (
+const Order = ({ meals, delivery_date: deliveryDate, meal_count: mealCount }) => {
+  const Meals = () => meals.map((meal) => (
     <Meal {...meal} />
   ));
 
@@ -16,12 +16,12 @@ const Order = (props) => {
   const details = (
     <div className={styles.details}>
       <div className={styles.meals}>
-        {meals}
+        <Meals />
       </div>
     </div>
   );
 
-  const date = moment(new Date(props.delivery_date)).format('MMMM D Y');
+  const date = moment(new Date(deliveryDate)).format('MMMM D Y');
   return (
     <>
       <div className={styles.order}>
@@ -41,7 +41,7 @@ const Order = (props) => {
         </div>
         <div className={classNames(styles.section, styles.right)}>
           <div className={classNames(styles.item, styles.quantity)}>
-            {`${props.meal_count} ` + 'Jars'}
+            {`${mealCount} Jars`}
           </div>
           <button className={classNames(styles.item, styles.button)} type="button">
             Get Order
