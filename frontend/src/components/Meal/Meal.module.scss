@@ -1,0 +1,42 @@
+.meal {
+    padding: 0.5em 1em;
+}
+
+.section{
+    display: flex;
+    flex-direction: row;
+    .oneThirds {
+        flex: 1;
+    }
+    .twoThirds{
+        flex: 2;
+        padding: 1em 0.5em;
+    }
+}
+
+.image {
+    width: 25%;
+}
+
+.imagesrc {
+    width: 100%;
+}
+
+.text {
+    color: #640040;
+}
+
+.name {
+    @extend .text;
+    font-size: large;
+    font-weight: 500;
+}
+
+.description {
+    @extend .text;
+    font-size: small;
+}
+
+
+
+

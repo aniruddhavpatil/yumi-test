@@ -1,0 +1,60 @@
+.order {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1em 1em;
+}
+
+.control{
+    color: #640040;
+    font-size: small;
+    cursor: pointer;
+}
+
+.status {
+    font-size: x-large;
+    border-right: solid 1px lightgray;
+    color: #640040;
+}
+
+.section{
+    flex: 1;
+    display: flex;
+    border-bottom: solid 1px lightgray;
+}
+
+.section.left{
+    flex-direction: column;
+}
+
+.section.right{
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.item {
+    padding: 0.5em 1em;
+    align-items: center;
+}
+
+.button {
+    color: white;
+    border: none;
+    font-weight: 600;
+    background-color: #640040;
+}
+
+.quantity {
+    color: #640040;
+}
+
+.date {
+    color: #640040;
+}
+
+.meals {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+}

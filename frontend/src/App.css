@@ -1,4 +1,7 @@
 .layout {
-    height: 200vh;
     background: #f9f8f6;
+}
+
+body {
+    width: 100%;
 }
