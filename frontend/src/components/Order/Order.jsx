@@ -5,7 +5,6 @@ import styles from './Order.module.scss';
 import Meal from '../Meal';
 
 const Order = (props) => {
-  console.log('order props', props);
   const meals = props.meals.map((meal) => (
     <Meal {...meal} />
   ));

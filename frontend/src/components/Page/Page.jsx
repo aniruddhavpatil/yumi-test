@@ -8,19 +8,24 @@ import Orders from '../Orders';
 dotenv.config();
 
 const Page = () => {
-  const initialState = {
-    userId: 1,
-    orders: {
-      upcoming: [],
-      past: [],
-    },
-    page: 1,
-    per: 4,
-    pageView: 'loading',
-    orderView: 'loading',
-    sort: 'delivery_date',
-    direction: 'asc',
-  };
+  const getInitialState = () => (
+    {
+      userId: 1,
+      orders: {
+        upcoming: [],
+        past: [],
+      },
+      page: 1,
+      per: 4,
+      pageView: 'loading',
+      orderView: 'loading',
+      sort: 'delivery_date',
+      direction: 'asc',
+    }
+  );
+
+  const initialState = getInitialState();
+
   const [state, setState] = useState(initialState);
 
   state.showUpcoming = () => {
@@ -44,17 +49,7 @@ const Page = () => {
     });
   };
 
-  // On state change, log state
-  useEffect(() => {
-    console.log(state);
-  }, [state]);
-
-  useEffect(() => {
-    fetchData();
-  }, [state.userId, state.direction, state.page, state.per]);
-
   const fetchData = async () => {
-    console.log('$$$$$$$$$$$$$$', state);
     setState({
       ...state,
       orderView: 'loading',
@@ -70,6 +65,10 @@ const Page = () => {
       },
     });
   };
+
+  useEffect(() => {
+    fetchData();
+  }, [state.userId, state.direction, state.page, state.per]);
 
   const createRequest = (params) => {
     let request = `${process.env.REACT_APP_API_URL}/api` + '/v1' + '/orders';
@@ -101,37 +100,40 @@ const Page = () => {
     return result;
   };
 
+  const getParams = (userId) => ([
+    {
+      field: 'user_id',
+      value: userId,
+    },
+    {
+      field: 'per',
+      value: state.per,
+    },
+    {
+      field: 'sort',
+      value: state.sort,
+    },
+    {
+      field: 'direction',
+      value: state.direction,
+    },
+    {
+      field: 'page',
+      value: state.page,
+    },
+  ]);
+
   const getOrders = (userId) => {
-    const params = [
-      {
-        field: 'user_id',
-        value: userId,
-      },
-      {
-        field: 'per',
-        value: state.per,
-      },
-      {
-        field: 'sort',
-        value: state.sort,
-      },
-      {
-        field: 'direction',
-        value: state.direction,
-      },
-      {
-        field: 'page',
-        value: state.page,
-      },
-    ];
+    const params = getParams(userId);
     const [request, requestOptions] = createRequest(params);
-    console.log('request', request);
     const result = makeRequest(request, requestOptions);
     return result;
   };
 
   const checkPage = () => {
-    if (state.orders.upcoming.length >= state.per || state.orders.past.length >= state.per) return true;
+    if (
+      state.orders.upcoming.length >= state.per
+      || state.orders.past.length >= state.per) return true;
     return false;
   };
 
@@ -141,6 +143,7 @@ const Page = () => {
       page: checkPage() ? state.page + 1 : state.page,
     });
   };
+
   const prevPage = () => {
     setState({
       ...state,
@@ -152,7 +155,6 @@ const Page = () => {
     const className = classNames(styles.item, {
       [styles.active]: state.orderView === name,
     });
-    console.log('CLASSNAME', className);
     return className;
   };
 
